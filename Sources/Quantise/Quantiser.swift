@@ -2,7 +2,7 @@
 
 /// A ``QuantiserPolicy`` describes to ``Quantiser`` the kind of data that it is working with.
 ///
-/// Implementation ``RGBQuantisationPolicy`` provides an example for quantising UInt8 colours.
+/// The implementation ``RGBQuantisationPolicy`` provides an example for quantising RGB8 colours.
 ///
 public protocol QuantiserPolicy {
     /// The type of input data to quantise.

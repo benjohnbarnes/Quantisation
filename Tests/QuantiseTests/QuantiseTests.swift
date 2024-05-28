@@ -88,7 +88,7 @@ final class QuantiseTests: XCTestCase {
     }
 }
 
-extension RGBQuantiserPolicy.Element {
+extension RGBQuantiserPolicy.RGB8 {
     static let red = Self.red(255)
     static let green = Self.green(255)
     static let blue = Self.blue(255)

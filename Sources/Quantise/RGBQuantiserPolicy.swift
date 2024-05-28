@@ -6,7 +6,7 @@ public struct RGBQuantiserPolicy: QuantiserPolicy {
 
     public init() {}
 
-    public struct Element: Hashable {
+    public struct RGB8: Hashable {
         public let r, g, b: UInt8
 
         public init(
@@ -20,22 +20,22 @@ public struct RGBQuantiserPolicy: QuantiserPolicy {
         }
     }
 
-    public func quantise(_ element: Element, at quantisationLevel: Int) -> Element {
-        Element(
+    public func quantise(_ element: RGB8, at quantisationLevel: Int) -> RGB8 {
+        RGB8(
             r: element.r / UInt8(quantisationLevel),
             g: element.g / UInt8(quantisationLevel),
             b: element.b / UInt8(quantisationLevel)
         )
     }
 
-    public struct Statistics {
+    public struct RGBStatistics {
         public let r: UInt64
         public let g: UInt64
         public let b: UInt64
         public let count: UInt64
 
-        public var average: Element {
-            Element(
+        public var average: RGB8 {
+            RGB8(
                 r: UInt8(Double(r) / Double(count).rounded(.toNearestOrAwayFromZero)),
                 g: UInt8(Double(g) / Double(count).rounded(.toNearestOrAwayFromZero)),
                 b: UInt8(Double(b) / Double(count).rounded(.toNearestOrAwayFromZero))
@@ -43,8 +43,8 @@ public struct RGBQuantiserPolicy: QuantiserPolicy {
         }
     }
 
-    public func statistics(for element: Element) -> Statistics {
-        Statistics(
+    public func statistics(for element: RGB8) -> RGBStatistics {
+        RGBStatistics(
             r: UInt64(element.r),
             g: UInt64(element.g),
             b: UInt64(element.b),
@@ -52,8 +52,8 @@ public struct RGBQuantiserPolicy: QuantiserPolicy {
         )
     }
 
-    public func combineStatistics(_ l: Statistics, _ r: Statistics) -> Statistics {
-        Statistics(
+    public func combineStatistics(_ l: RGBStatistics, _ r: RGBStatistics) -> RGBStatistics {
+        RGBStatistics(
             r: r.r + l.r,
             g: r.g + l.g,
             b: r.b + l.b,
