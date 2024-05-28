@@ -45,7 +45,7 @@ public extension Quantiser {
     struct Quantisation {
         /// Statistics about the quanta found. Each quanta has a ``Slot`` and the
         /// statistics known about it.
-        public let statistics: [Int: Statistics]
+        public let statistics: [Statistics]
 
         /// Find the slot that contains a given ``Element``. This can fail for
         /// an unseen element that is not included in any quanta.
@@ -107,12 +107,6 @@ public extension Quantiser {
         /// Give each bin a slot number.
         let slotAssignments = quantaStatistics.enumerated()
 
-        /// Build a dictionary from slot number to statistics about that slot. This is effectively our
-        /// "colour map".
-        let slotToStatistics = Dictionary(uniqueKeysWithValues: slotAssignments.map { slot, binStatistics in
-            (slot, binStatistics.value)
-        })
-
         /// Build a dictionary from **quanta** elements to their slot number. Once an element is quantised
         /// to a quanta it can be looked up in this dictionary.
         let quantaToSlot = Dictionary(uniqueKeysWithValues: slotAssignments.map { slot, binStatistics in
@@ -120,7 +114,7 @@ public extension Quantiser {
         })
 
         return Quantisation(
-            statistics: slotToStatistics,
+            statistics: quantaStatistics.map(\.value),
             quantise: { element in
                 quantaToSlot[policy.quantise(element, at: quantisationLevel)]
             }

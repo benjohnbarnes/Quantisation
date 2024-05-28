@@ -8,7 +8,7 @@ final class QuantiseTests: XCTestCase {
         let quantised = subject.quantisation(of: [.white])
 
         /// Map should just have white as centre.
-        XCTAssertEqual(quantised.statistics.mapValues(\.average), [0: .white])
+        XCTAssertEqual(quantised.statistics.map(\.average), [.white])
 
         /// White should quantise to 0.
         XCTAssertEqual(quantised.quantise(.white), 0)
@@ -26,7 +26,7 @@ final class QuantiseTests: XCTestCase {
 
         /// Map should just have black and white as centres.
         XCTAssertEqual(quantised.statistics.count, 2)
-        XCTAssertEqual(Set(quantised.statistics.values.map(\.average)), Set([.black, .white]))
+        XCTAssertEqual(Set(quantised.statistics.map(\.average)), Set([.black, .white]))
 
         /// Nothing else should quantise.
         XCTAssertNil(quantised.quantise(.red))
@@ -40,7 +40,7 @@ final class QuantiseTests: XCTestCase {
 
         /// Map should have the two mid greys.
         XCTAssertEqual(quantised.statistics.count, 2)
-        XCTAssertEqual(Set(quantised.statistics.values.map(\.average)), Set([.grey(64), .grey(192)]))
+        XCTAssertEqual(Set(quantised.statistics.map(\.average)), Set([.grey(63), .grey(191)]))
 
         /// Nothing else should quantise.
         XCTAssertNil(quantised.quantise(.red))
@@ -54,7 +54,7 @@ final class QuantiseTests: XCTestCase {
 
         /// Map should just have mid reds
         XCTAssertEqual(quantised.statistics.count, 2)
-        XCTAssertEqual(Set(quantised.statistics.values.map(\.average)), Set([.red(64), .red(192)]))
+        XCTAssertEqual(Set(quantised.statistics.map(\.average)), Set([.red(63), .red(191)]))
 
         /// Other colours should should not quantise.
         XCTAssertNil(quantised.quantise(.green))
@@ -67,7 +67,7 @@ final class QuantiseTests: XCTestCase {
 
         /// Map should just have mid reds
         XCTAssertEqual(quantised.statistics.count, 2)
-        XCTAssertEqual(Set(quantised.statistics.values.map(\.average)), Set([.green(64), .green(192)]))
+        XCTAssertEqual(Set(quantised.statistics.map(\.average)), Set([.green(63), .green(191)]))
 
         /// Other colours should should not quantise.
         XCTAssertNil(quantised.quantise(.red))
@@ -80,7 +80,7 @@ final class QuantiseTests: XCTestCase {
 
         /// Map should just have mid reds
         XCTAssertEqual(quantised.statistics.count, 2)
-        XCTAssertEqual(Set(quantised.statistics.values.map(\.average)), Set([.blue(64), .blue(192)]))
+        XCTAssertEqual(Set(quantised.statistics.map(\.average)), Set([.blue(63), .blue(191)]))
 
         /// Other colours should should not quantise.
         XCTAssertNil(quantised.quantise(.red))

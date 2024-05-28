@@ -22,9 +22,9 @@ public struct RGBQuantiserPolicy: QuantiserPolicy {
 
     public func quantise(_ element: RGB8, at quantisationLevel: Int) -> RGB8 {
         RGB8(
-            r: element.r / UInt8(quantisationLevel),
-            g: element.g / UInt8(quantisationLevel),
-            b: element.b / UInt8(quantisationLevel)
+            r: element.r - element.r % UInt8(quantisationLevel),
+            g: element.g - element.g % UInt8(quantisationLevel),
+            b: element.b - element.b % UInt8(quantisationLevel)
         )
     }
 
