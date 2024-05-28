@@ -35,19 +35,25 @@ public struct Quantiser<Policy: QuantiserPolicy> {
         self.maximumQuanta = maximumQuanta
         self.policy = policy
     }
+}
+
+public extension Quantiser {
+    typealias Statistics = Policy.Statistics
+    typealias Element = Policy.Element
+
+    /// Result type for a quantisation operation.
+    struct Quantisation {
+        /// Statistics about the quanta found. Each quanta has a ``Slot`` and the
+        /// statistics known about it.
+        public let statistics: [Int: Statistics]
+
+        /// Find the slot that contains a given ``Element``. This can fail for
+        /// an unseen element that is not included in any quanta.
+        public let quantise: (Element) -> Int?
+    }
 
     /// Find a quantisation of input elements.
-    ///
-    /// The result tuple has:
-    /// * `map` – Dictionary that assign each map slot integer in `0 ..< mapSize` a shared
-    /// quantised value.
-    /// * `quantiser` – function taking an un-quantised value and looking up a map slot to
-    /// use for it.
-    ///
-    public func quantisation(of elements: some Sequence<Policy.Element>) -> (
-        statistics: [Int: Policy.Statistics],
-        quantiser: (Policy.Element) -> Int?
-    ) {
+    func quantisation(of elements: some Sequence<Policy.Element>) -> Quantisation {
         /// Initially assume it won't be necessary to quantise the elements at all.
         var quantisationLevel = 1
 
@@ -113,9 +119,11 @@ public struct Quantiser<Policy: QuantiserPolicy> {
             (binStatistics.key, slot)
         })
 
-        return (
+        return Quantisation(
             statistics: slotToStatistics,
-            quantiser: { element in quantaToSlot[policy.quantise(element, at: quantisationLevel)] }
+            quantise: { element in
+                quantaToSlot[policy.quantise(element, at: quantisationLevel)]
+            }
         )
     }
 }

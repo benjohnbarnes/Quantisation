@@ -11,13 +11,13 @@ final class QuantiseTests: XCTestCase {
         XCTAssertEqual(quantised.statistics.mapValues(\.average), [0: .white])
 
         /// White should quantise to 0.
-        XCTAssertEqual(quantised.quantiser(.white), 0)
+        XCTAssertEqual(quantised.quantise(.white), 0)
 
         /// Nothing else should quantise.
-        XCTAssertNil(quantised.quantiser(.red))
-        XCTAssertNil(quantised.quantiser(.green))
-        XCTAssertNil(quantised.quantiser(.blue))
-        XCTAssertNil(quantised.quantiser(.black))
+        XCTAssertNil(quantised.quantise(.red))
+        XCTAssertNil(quantised.quantise(.green))
+        XCTAssertNil(quantised.quantise(.blue))
+        XCTAssertNil(quantised.quantise(.black))
     }
 
     func test_twoColourQuantiseFindsColours() {
@@ -29,9 +29,9 @@ final class QuantiseTests: XCTestCase {
         XCTAssertEqual(Set(quantised.statistics.values.map(\.average)), Set([.black, .white]))
 
         /// Nothing else should quantise.
-        XCTAssertNil(quantised.quantiser(.red))
-        XCTAssertNil(quantised.quantiser(.green))
-        XCTAssertNil(quantised.quantiser(.blue))
+        XCTAssertNil(quantised.quantise(.red))
+        XCTAssertNil(quantised.quantise(.green))
+        XCTAssertNil(quantised.quantise(.blue))
     }
 
     func test_quantiseGreysFindsMidPoints() {
@@ -43,9 +43,9 @@ final class QuantiseTests: XCTestCase {
         XCTAssertEqual(Set(quantised.statistics.values.map(\.average)), Set([.grey(64), .grey(192)]))
 
         /// Nothing else should quantise.
-        XCTAssertNil(quantised.quantiser(.red))
-        XCTAssertNil(quantised.quantiser(.green))
-        XCTAssertNil(quantised.quantiser(.blue))
+        XCTAssertNil(quantised.quantise(.red))
+        XCTAssertNil(quantised.quantise(.green))
+        XCTAssertNil(quantised.quantise(.blue))
     }
 
     func test_quantiseRedsFindsMidPoints() {
@@ -57,8 +57,8 @@ final class QuantiseTests: XCTestCase {
         XCTAssertEqual(Set(quantised.statistics.values.map(\.average)), Set([.red(64), .red(192)]))
 
         /// Other colours should should not quantise.
-        XCTAssertNil(quantised.quantiser(.green))
-        XCTAssertNil(quantised.quantiser(.blue))
+        XCTAssertNil(quantised.quantise(.green))
+        XCTAssertNil(quantised.quantise(.blue))
     }
 
     func test_quantiseGreensFindsMidPoints() {
@@ -70,8 +70,8 @@ final class QuantiseTests: XCTestCase {
         XCTAssertEqual(Set(quantised.statistics.values.map(\.average)), Set([.green(64), .green(192)]))
 
         /// Other colours should should not quantise.
-        XCTAssertNil(quantised.quantiser(.red))
-        XCTAssertNil(quantised.quantiser(.blue))
+        XCTAssertNil(quantised.quantise(.red))
+        XCTAssertNil(quantised.quantise(.blue))
     }
 
     func test_quantiseBluesFindsMidPoints() {
@@ -83,8 +83,8 @@ final class QuantiseTests: XCTestCase {
         XCTAssertEqual(Set(quantised.statistics.values.map(\.average)), Set([.blue(64), .blue(192)]))
 
         /// Other colours should should not quantise.
-        XCTAssertNil(quantised.quantiser(.red))
-        XCTAssertNil(quantised.quantiser(.green))
+        XCTAssertNil(quantised.quantise(.red))
+        XCTAssertNil(quantised.quantise(.green))
     }
 }
 
